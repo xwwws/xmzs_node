@@ -1,6 +1,7 @@
-const http = require('node:http');
-const url = require('node:url');
-const fs = require('node:fs');
+import http from 'http';
+import url from 'url';
+import fs from 'fs';
+
 const { createProxyMiddleware } = require('http-proxy-middleware')
 const html = fs.readFileSync('./index.html', 'utf8');
 
