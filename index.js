@@ -1,24 +1,35 @@
 import http from 'http';
-import url from 'url';
 import fs from 'fs';
-
-const { createProxyMiddleware } = require('http-proxy-middleware')
-const html = fs.readFileSync('./index.html', 'utf8');
-
-const config = require('./app.config.js');
+import mime from 'mime';
+import path from 'path';
 const app = http.createServer((req, res) => {
-  const proxyList = Object.keys(config.serve.proxy)
-  const pathname = url.parse(req.url).pathname
-  if (proxyList.includes(pathname)) {
-    const proxy = createProxyMiddleware(config.serve.proxy[pathname])
-    proxy(req, res, (err) => {
-      res.writeHead(500, { 'Content-Type': 'text/plain' })
-      res.end(err)
+
+  const {method, url} = req
+  // 获取静态资源
+  if (method === 'GET' && url.startsWith('/static')) {
+    const filePath = path.join(process.cwd(), url)
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.statusCode = 404
+        res.end('NOT FOUND')
+      } else {
+        const type = mime.getType(filePath)
+        res.writeHead(200, {
+          'Content-Type': type,
+          "cache-control": "public, max-age=3600"
+        })
+        res.end(data)
+        
+      }
     })
-    return
   }
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.end(html)
+
+
+  if(method === 'POST' || method === 'GET' && url.startsWith('/api')) {
+
+  }
+
+
 });
 
 
