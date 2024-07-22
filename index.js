@@ -3,6 +3,7 @@ import List from "./router/list.js";
 import User from "./router/user.js";
 import LoggerMiddleware from "./middleware/logger.js";
 import preventHotLinking from "./middleware/HotLingking.js";
+import ReqResHeaders from "./router/reqResHeaders.js";
 
 const app = express();
 // 静态资源
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/list', List)
 app.use('/user', User)
+app.use('/req-res-headers', ReqResHeaders)
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
