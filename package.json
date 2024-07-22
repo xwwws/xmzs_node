@@ -11,9 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http-proxy-middleware": "^3.0.0",
-    "js-yaml": "^4.1.0",
-    "mime": "^4.0.4",
-    "nodemailer": "^6.9.14"
+    "@types/node": "^20.14.11",
+    "express": "^4.19.2",
+    "log4js": "^6.9.1"
   }
 }
